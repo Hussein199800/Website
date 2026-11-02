@@ -31,7 +31,7 @@
 | سكينة | تطبيق v1.3 | releases/latest/download/sakina.apk |
 | سَيْل | تطبيق | download_video/releases/latest |
 | شارك أبك | تطبيق v3.0 | Share_apk/releases/latest |
-| طاقتي | تطبيق v3.6 | Car/releases/latest |
+| طاقتي | تطبيق v3.6 | Car/releases/latest/download/taqati.apk |
 | نظام تدقيق الوكالات | موقع | hussein199800.github.io/Work_1/ |
 | موسوعة نقابة المحامين | موقع | hussein199800.github.io/bar-encyclopedia/ |
 | CryptoScope AI | موقع + تنبيه «ليست نصيحة مالية» | hussein199800.github.io/Ai_crypto/ |
