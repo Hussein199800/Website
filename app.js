@@ -250,6 +250,7 @@
     if (data.contact) {
       $('#tg').href = data.contact.telegram;
       $('#wa').href = data.contact.whatsapp;
+      if (data.contact.channel) $('#channel').href = data.contact.channel;
     }
     render();
   }
