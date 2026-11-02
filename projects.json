@@ -30,9 +30,9 @@
       "type": "app",
       "name": "سَيْل",
       "tagline": "تنزيل الفيديو والصوت من 1800 موقع",
-      "version": "",
+      "version": "1.1",
       "icon": "assets/icons/sayl.png",
-      "url": "https://github.com/Hussein199800/download_video/releases/latest",
+      "url": "https://github.com/Hussein199800/download_video/releases/download/v1.1.0/sayl-1.1.0-arm64-v8a.apk",
       "what": "تنزيل الفيديو والصوت وقوائم التشغيل من يوتيوب وتيك توك وإنستغرام وأكثر من 1800 موقع.",
       "features": [
         "دقة حتى 4K، وصوت MP3 أو M4A",
@@ -43,8 +43,7 @@
       "audience": "لكل من يريد حفظ الفيديوهات والصوتيات على جواله.",
       "goal": "منزّل قوي بلا إعلانات ولا تتبع، وكل شيء يجري على الهاتف.",
       "whatsNew": "سيرفر احتياطي: إذا تعطّل الأول ينتقل التنزيل إلى الثاني تلقائياً.",
-      "color": "#1565c0",
-      "available": false
+      "color": "#1565c0"
     },
     {
       "id": "shareapk",
@@ -53,7 +52,7 @@
       "tagline": "شارك التطبيقات والملفات بلا إنترنت",
       "version": "3.0",
       "icon": "assets/icons/shareapk.png",
-      "url": "https://github.com/Hussein199800/Share_apk/releases/latest",
+      "url": "https://github.com/Hussein199800/Share_apk/releases/latest/download/shareapk-3.0.0.apk",
       "what": "استخراج التطبيقات المثبتة ومشاركتها، ونقل التطبيقات والملفات بين الأجهزة القريبة.",
       "features": [
         "استخراج أي تطبيق كملف APK أو APKS",
@@ -64,8 +63,7 @@
       "audience": "لمن يريد نقل تطبيقاته وملفاته بين الأجهزة دون إنترنت.",
       "goal": "نقل سريع بلا إنترنت ولا إعلانات ولا تتبع.",
       "whatsNew": "تصميم جديد بالكامل، وتوافق تام مع LocalSend.",
-      "color": "#3a2a1a",
-      "available": false
+      "color": "#3a2a1a"
     },
     {
       "id": "taqati",
