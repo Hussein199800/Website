@@ -43,7 +43,8 @@
       "audience": "لكل من يريد حفظ الفيديوهات والصوتيات على جواله.",
       "goal": "منزّل قوي بلا إعلانات ولا تتبع، وكل شيء يجري على الهاتف.",
       "whatsNew": "سيرفر احتياطي: إذا تعطّل الأول ينتقل التنزيل إلى الثاني تلقائياً.",
-      "color": "#1565c0"
+      "color": "#1565c0",
+      "available": false
     },
     {
       "id": "shareapk",
@@ -63,7 +64,8 @@
       "audience": "لمن يريد نقل تطبيقاته وملفاته بين الأجهزة دون إنترنت.",
       "goal": "نقل سريع بلا إنترنت ولا إعلانات ولا تتبع.",
       "whatsNew": "تصميم جديد بالكامل، وتوافق تام مع LocalSend.",
-      "color": "#3a2a1a"
+      "color": "#3a2a1a",
+      "available": false
     },
     {
       "id": "taqati",
@@ -72,7 +74,7 @@
       "tagline": "راقب منظومة الطاقة الشمسية من جوالك",
       "version": "3.6",
       "icon": "assets/icons/taqati.png",
-      "url": "https://github.com/Hussein199800/Car/releases/latest",
+      "url": "https://github.com/Hussein199800/Car/releases/latest/download/taqati-3.6.1.apk",
       "what": "مراقبة منظومة الطاقة الشمسية من الجوال، بنفس حساب تطبيق WatchPower.",
       "features": [
         "مخطط حيّ لتدفق الطاقة وحالة البطارية والمدة المتبقية",

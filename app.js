@@ -33,9 +33,40 @@
   }
 
   /* ---------- Cards ---------- */
+  function isReady(p) { return p.available !== false; }
+
+  function actionLink(p, cls) {
+    var label = LABELS[p.type];
+    if (!isReady(p)) {
+      return el('a', { class: cls, 'aria-disabled': 'true', role: 'link', text: 'قريباً' });
+    }
+    var a = el('a', { class: cls, href: p.url, target: '_blank', rel: 'noopener', text: label.action });
+    a.addEventListener('click', function (e) { e.stopPropagation(); onLaunch(p); });
+    return a;
+  }
+
+  function launch(p) {
+    if (!isReady(p)) { openSheet(p); return; }
+    openLink(p.url);
+    onLaunch(p);
+  }
+
+  function onLaunch(p) {
+    if (p.type === 'app') toast('بدأ تحميل «' + p.name + '». إذا ما بلّش، شغّل VPN وجرّب مرة تانية.');
+  }
+
+  var toastTimer = null;
+  function toast(msg) {
+    var t = $('#toast');
+    t.textContent = msg;
+    t.hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.hidden = true; }, 5000);
+  }
+
   function card(p) {
     var label = LABELS[p.type];
-    var action = el('a', { class: 'btn btn-primary', href: p.url, target: '_blank', rel: 'noopener', text: label.action });
+    var action = actionLink(p, 'btn btn-primary');
     var info = el('button', { class: 'info-btn', type: 'button', 'aria-label': 'تفاصيل ' + p.name }, [infoIcon()]);
     var meta = el('div', { class: 'meta' }, [
       el('span', { class: 'badge', text: label.type }),
@@ -49,8 +80,7 @@
       el('div', { class: 'card-actions' }, [action, info])
     ]);
     info.addEventListener('click', function (e) { e.stopPropagation(); openSheet(p, info); });
-    action.addEventListener('click', function (e) { e.stopPropagation(); });
-    node.addEventListener('click', function () { openLink(p.url); });
+    node.addEventListener('click', function () { launch(p); });
     return node;
   }
 
@@ -81,8 +111,7 @@
     var timer = null;
 
     featured.forEach(function (p, i) {
-      var btn = el('a', { class: 'btn', href: p.url, target: '_blank', rel: 'noopener', text: LABELS[p.type].action });
-      btn.addEventListener('click', function (e) { e.stopPropagation(); });
+      var btn = actionLink(p, 'btn');
       var slide = el('div', { class: 'slide', role: 'group', 'aria-label': (i + 1) + ' من ' + featured.length }, [
         el('img', { class: 'app-icon', src: p.icon, alt: '', width: '120', height: '120' }),
         el('div', { class: 'slide-text' }, [
@@ -159,9 +188,11 @@
       row('✨ شو الجديد', p.whatsNew)
     );
     body.scrollTop = 0;
-    var action = $('#sheetAction');
-    action.href = p.url;
-    action.textContent = label.action;
+    var old = $('#sheetAction');
+    var action = actionLink(p, 'btn btn-primary btn-wide');
+    action.id = 'sheetAction';
+    old.replaceWith(action);
+    $('#sheetHint').hidden = !(p.type === 'app' && isReady(p));
     $('#backdrop').hidden = false;
     $('#sheet').hidden = false;
     document.body.classList.add('no-scroll');

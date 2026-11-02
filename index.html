@@ -46,6 +46,7 @@
 
     <section class="section" data-section="app">
       <h2 class="section-title">التطبيقات</h2>
+      <p class="hint">💡 التحميل مباشر لملف APK. إذا ما بلّش التحميل، شغّل VPN وجرّب مرة تانية.</p>
       <div class="grid" id="grid-app"></div>
     </section>
 
@@ -88,8 +89,11 @@
     <div class="sheet-body" id="sheetBody"></div>
     <div class="sheet-foot">
       <a id="sheetAction" class="btn btn-primary btn-wide" target="_blank" rel="noopener"></a>
+      <p class="hint" id="sheetHint" hidden>إذا ما بلّش التحميل، شغّل VPN وجرّب مرة تانية.</p>
     </div>
   </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
   <script src="app.js"></script>
 </body>
