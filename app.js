@@ -70,7 +70,8 @@
     var info = el('button', { class: 'info-btn', type: 'button', 'aria-label': 'تفاصيل ' + p.name }, [infoIcon()]);
     var meta = el('div', { class: 'meta' }, [
       el('span', { class: 'badge', text: label.type }),
-      p.version ? el('span', { class: 'badge soft', text: 'v' + p.version }) : null
+      p.version ? el('span', { class: 'badge soft', text: 'v' + p.version }) : null,
+      p.status === 'dev' ? el('span', { class: 'badge dev', text: 'قيد التطوير' }) : null
     ]);
     var node = el('article', { class: 'card', 'data-id': p.id }, [
       el('img', { class: 'app-icon', src: p.icon, alt: '', loading: 'lazy', width: '76', height: '76' }),
@@ -177,7 +178,7 @@
     var label = LABELS[p.type];
     $('#sheetIcon').src = p.icon;
     $('#sheetTitle').textContent = p.name;
-    $('#sheetMeta').textContent = label.type + (p.version ? ' · v' + p.version : '');
+    $('#sheetMeta').textContent = label.type + (p.version ? ' · v' + p.version : '') + (p.status === 'dev' ? ' · قيد التطوير' : '');
     var body = $('#sheetBody');
     body.replaceChildren(
       p.note ? el('p', { class: 'note', text: '⚠️ ' + p.note }) : el('span'),

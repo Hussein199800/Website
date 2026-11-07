@@ -1,0 +1,37 @@
+name: مزامنة إصدارات التطبيقات
+
+# كل 6 ساعات (ويدوياً من تبويب Actions) يقرأ آخر إصدار لكل تطبيق
+# ويحدّث رقم الإصدار و«شو الجديد» ورابط التحميل في projects.json.
+on:
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-releases
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Test
+        run: node --test scripts/sync-releases.test.mjs
+      - name: Sync
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/sync-releases.mjs
+      - name: Commit
+        run: |
+          if git diff --quiet projects.json; then echo "لا تغييرات"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "تحديث تلقائي لإصدارات التطبيقات"
+          git push
