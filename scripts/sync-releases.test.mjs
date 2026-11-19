@@ -31,3 +31,24 @@ test('bullets: skips GitHub auto-generated PR lines', () => {
   const body = '• جديد\n## What\'s Changed\n* إصلاح by @u in https://github.com/o/x/pull/4';
   assert.deepEqual(bullets(body), ['جديد']);
 });
+
+test('bullets: top-level only, drops header colon and fixes', () => {
+  const body = '• أدوات الوسائط:\n   • تحويل الصيغة\n• إصلاح: خطأ\n• المكتبة';
+  assert.deepEqual(bullets(body), ['أدوات الوسائط', 'المكتبة']);
+});
+
+test('bullets: long item is shortened at a sentence end', () => {
+  const long = 'جملة أولى قصيرة نوعاً ما وفيها كلام كافٍ لتجاوز الحد الأدنى. ' + 'كلام '.repeat(40);
+  const [b] = bullets('• ' + long);
+  assert.ok(b.length <= 141, b.length);
+  assert.ok(b.endsWith('…'));
+});
+
+test('apply: manual whatsNew is kept for its version, replaced by a newer one', () => {
+  const manual = { ...base, version: '1.2.0', whatsNew: ['يدوي'], whatsNewFor: '1.2.0' };
+  const same = apply(manual, { tag_name: 'v1.2.0', body: '• تلقائي', assets: [{ name: 'x.apk' }] });
+  assert.deepEqual(same.whatsNew, ['يدوي']);
+  const newer = apply(manual, { tag_name: 'v1.3.0', body: '• تلقائي', assets: [{ name: 'x.apk' }] });
+  assert.deepEqual(newer.whatsNew, ['تلقائي']);
+  assert.equal(newer.whatsNewFor, undefined);
+});

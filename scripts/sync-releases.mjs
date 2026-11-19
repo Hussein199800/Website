@@ -20,15 +20,26 @@ async function latestRelease(repo) {
   return res.json();
 }
 
+const MAX_LEN = 140;
+
+// نقطة طويلة تُختصر عند أول نهاية جملة حتى تبقى البطاقة مقروءة
+function shorten(text) {
+  if (text.length <= MAX_LEN) return text;
+  const cut = text.slice(0, MAX_LEN).search(/[.،؛](?=[^.،؛]*$)/);
+  return (cut > 40 ? text.slice(0, cut) : text.slice(0, MAX_LEN)).trim() + '…';
+}
+
 export function bullets(body) {
   return (body || '')
     .split('\n')
-    .map((l) => l.trim())
+    // النقاط الرئيسية فقط: النقاط الفرعية المزاحة تفاصيل لا تلزم البطاقة
     .filter((l) => /^[•\-*]\s+/.test(l))
     // ملاحظات GitHub التلقائية («… by @user in https://…») ليست وصفاً للمستخدم
     .filter((l) => !/https?:\/\/|\sby\s@/.test(l))
     .map((l) => l.replace(/^[•\-*]\s+/, '').replace(/\*\*/g, '').trim())
-    .filter(Boolean)
+    // الإصلاحات والتغييرات التقنية لا تهم الزائر
+    .filter((l) => l && !/^(إصلاح|fix|chore|ci|فحص GitHub)/i.test(l))
+    .map((l) => shorten(l.replace(/[:：]$/, '')))
     .slice(0, MAX_ITEMS);
 }
 
@@ -46,8 +57,13 @@ export function apply(project, release) {
   } else {
     p.available = false;
   }
+  // «شو الجديد» المكتوب يدوياً لإصدار معيّن يبقى حتى ينزل إصدار أحدث منه
+  const pinned = p.whatsNewFor && p.whatsNewFor === p.version;
   const items = bullets(release.body);
-  if (items.length) p.whatsNew = items;
+  if (!pinned && items.length) {
+    p.whatsNew = items;
+    delete p.whatsNewFor;
+  }
   return p;
 }
 
