@@ -62,7 +62,8 @@
       ],
       "color": "#1565c0",
       "repo": "Hussein199800/download_video",
-      "apk": "sayl.apk"
+      "apk": "sayl.apk",
+      "updated": "2026-11-23"
     },
     {
       "id": "shareapk",
@@ -268,7 +269,8 @@
         }
       ],
       "url": "https://hussein199800.github.io/Pension-Calculator/#calc",
-      "branch": "main"
+      "branch": "main",
+      "updated": "2026-11-25"
     },
     {
       "id": "sarrafa",
@@ -296,7 +298,8 @@
         "إصلاحات بعد مراجعة شاملة"
       ],
       "color": "#1f5f99",
-      "repo": "Hussein199800/Sarrafa"
+      "repo": "Hussein199800/Sarrafa",
+      "updated": "2026-11-17"
     },
     {
       "id": "agencies",
@@ -323,7 +326,8 @@
         "شاشة بدء سريع للسجلات الجديدة، ورقم إيصال القبض وتاريخه"
       ],
       "color": "#2b5bd7",
-      "repo": "Hussein199800/Work_1"
+      "repo": "Hussein199800/Work_1",
+      "updated": "2026-11-26"
     },
     {
       "id": "encyclopedia",
@@ -343,7 +347,8 @@
       "goal": "كل القوانين في مكان واحد، وكل بند مربوط بمادته وصفحتها.",
       "whatsNew": "15 دليلاً للمسؤوليات والصلاحيات.",
       "color": "#7a2335",
-      "repo": "Hussein199800/bar-encyclopedia"
+      "repo": "Hussein199800/bar-encyclopedia",
+      "updated": "2026-10-20"
     },
     {
       "id": "crypto",
@@ -364,7 +369,8 @@
       "whatsNew": "تقييم احتمالي وسيناريوهات متعددة.",
       "note": "لأغراض تعليمية ومعلوماتية فقط، وليست نصيحة مالية.",
       "color": "#0f172a",
-      "repo": "Hussein199800/Ai_crypto"
+      "repo": "Hussein199800/Ai_crypto",
+      "updated": "2026-10-19"
     }
   ],
   "contact": {
