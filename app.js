@@ -246,7 +246,7 @@
       row('⚙️ المواصفات', p.features || []),
       row('👥 لمين', p.audience),
       row('🎯 الغاية', p.goal),
-      row('✨ شو الجديد', p.whatsNew)
+      (p.whatsNew && p.whatsNew.length) ? row('✨ شو الجديد', p.whatsNew) : el('span')
     );
     body.scrollTop = 0;
     var old = $('#sheetAction');

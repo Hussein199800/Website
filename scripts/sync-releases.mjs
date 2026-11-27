@@ -71,6 +71,13 @@ export function apply(project, release) {
   } else if (matched) {
     delete p.available;
     p.url = matched.browser_download_url;
+  }
+  // أول إصدار فيه ملف APK ينقل التطبيق من «قيد التطوير» إلى التطبيقات الجاهزة
+  if (fixed || matched) {
+    if (p.status === 'dev') {
+      delete p.status;
+      if (typeof p.whatsNew === 'string' && /قيد التطوير/.test(p.whatsNew)) p.whatsNew = [];
+    }
   } else {
     p.available = false;
   }

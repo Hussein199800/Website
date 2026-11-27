@@ -65,3 +65,17 @@ test('apply: apkPattern picks the matching asset and records the release date', 
   assert.equal(p.available, undefined);
   assert.equal(p.updated, '2026-11-26');
 });
+
+test('apply: first release with an APK promotes an in-development app', () => {
+  const p = apply({ ...base, status: 'dev', available: false, whatsNew: 'التطبيق قيد التطوير' },
+    { tag_name: 'v1.0.0', body: '• أول إصدار', assets: [{ name: 'x.apk' }] });
+  assert.equal(p.status, undefined);
+  assert.equal(p.available, undefined);
+  assert.deepEqual(p.whatsNew, ['أول إصدار']);
+});
+
+test('apply: release without the APK keeps the app in development', () => {
+  const p = apply({ ...base, status: 'dev' }, { tag_name: 'v1.0.0', body: '', assets: [] });
+  assert.equal(p.status, 'dev');
+  assert.equal(p.available, false);
+});
