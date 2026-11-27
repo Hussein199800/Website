@@ -150,7 +150,6 @@
     {
       "id": "tadaffuq",
       "type": "app",
-      "status": "dev",
       "name": "تدفّق",
       "tagline": "مدير تنزيل سريع بتعدد الاتصالات",
       "version": "1.1.0",
