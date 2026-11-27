@@ -93,21 +93,63 @@
     return node;
   }
 
+  function group(p) { return p.status === 'dev' ? 'dev' : p.type; }
+
   function render() {
     var q = state.query.trim().toLowerCase();
     var shown = 0;
-    ['app', 'web'].forEach(function (type) {
-      var grid = $('#grid-' + type);
-      var section = document.querySelector('[data-section="' + type + '"]');
+    ['app', 'web', 'dev'].forEach(function (key) {
+      var grid = $('#grid-' + key);
+      var section = document.querySelector('[data-section="' + key + '"]');
       var items = state.projects.filter(function (p) {
-        return p.type === type && (!q || (p.name + ' ' + p.tagline).toLowerCase().indexOf(q) !== -1);
+        return group(p) === key && (!q || (p.name + ' ' + p.tagline).toLowerCase().indexOf(q) !== -1);
       });
-      grid.replaceChildren.apply(grid, items.map(card));
+      var cards = items.map(card);
+      cards.forEach(function (c, i) { c.style.setProperty('--i', i); });
+      grid.replaceChildren.apply(grid, cards);
+      var type = key === 'dev' ? 'app' : key;
       var visible = items.length > 0 && (state.filter === 'all' || state.filter === type);
       section.hidden = !visible;
       if (visible) shown += items.length;
     });
     $('#empty').hidden = shown > 0;
+    reveal(document.querySelectorAll('.card'));
+  }
+
+  /* ---------- Motion ---------- */
+  var reduceMotion = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var observer = !reduceMotion && 'IntersectionObserver' in window
+    ? new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('is-in'); observer.unobserve(e.target); }
+        });
+      }, { rootMargin: '0px 0px -40px 0px', threshold: 0.1 })
+    : null;
+
+  // العناصر تظهر بحركة خفيفة عند وصولها للشاشة؛ وبدون دعم الحركة تظهر مباشرة
+  function reveal(nodes) {
+    Array.prototype.forEach.call(nodes, function (n) {
+      if (!observer) { n.classList.add('is-in'); return; }
+      n.classList.add('will-reveal');
+      observer.observe(n);
+    });
+  }
+
+  function countUp() {
+    var counts = { app: 0, web: 0, dev: 0 };
+    state.projects.forEach(function (p) { counts[group(p)]++; });
+    document.querySelectorAll('[data-count]').forEach(function (b) {
+      var target = counts[b.dataset.count] || 0;
+      if (reduceMotion) { b.textContent = target; return; }
+      var start = null;
+      function step(t) {
+        if (!start) start = t;
+        var k = Math.min((t - start) / 900, 1);
+        b.textContent = Math.round(target * (1 - Math.pow(1 - k, 3)));
+        if (k < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
   }
 
   /* ---------- Banner ---------- */
@@ -122,6 +164,7 @@
     featured.forEach(function (p, i) {
       var btn = actionLink(p, 'btn');
       var slide = el('div', { class: 'slide', role: 'group', 'aria-label': (i + 1) + ' من ' + featured.length }, [
+        el('img', { class: 'slide-deco', src: p.icon, alt: '', 'aria-hidden': 'true' }),
         el('img', { class: 'app-icon', src: p.icon, alt: '', width: '120', height: '120' }),
         el('div', { class: 'slide-text' }, [
           el('p', { class: 'slide-kicker', text: 'مميّز · ' + LABELS[p.type].type }),
@@ -144,7 +187,10 @@
       var dir = document.documentElement.dir === 'rtl' ? 1 : -1;
       slides.style.transform = 'translateX(' + (dir * index * 100) + '%)';
       Array.prototype.forEach.call(dots.children, function (d, j) { d.classList.toggle('is-active', j === index); });
-      Array.prototype.forEach.call(slides.children, function (s, j) { s.setAttribute('aria-hidden', j === index ? 'false' : 'true'); });
+      Array.prototype.forEach.call(slides.children, function (s, j) {
+        s.setAttribute('aria-hidden', j === index ? 'false' : 'true');
+        s.classList.toggle('is-current', j === index);
+      });
     }
     function restart() {
       clearInterval(timer);
@@ -268,6 +314,8 @@
       if (data.contact.channel) $('#channel').href = data.contact.channel;
     }
     render();
+    countUp();
+    reveal(document.querySelectorAll('.reveal'));
   }
 
   bind();

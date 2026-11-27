@@ -129,8 +129,8 @@
       "version": "1.1.1",
       "icon": "assets/icons/notea.svg",
       "repo": "Hussein199800/Notea",
-      "apk": "notea.apk",
-      "url": "https://github.com/Hussein199800/Notea/releases/latest/download/notea.apk",
+      "apk": "Notea.apk",
+      "url": "https://github.com/Hussein199800/Notea/releases/latest/download/Notea.apk",
       "available": false,
       "what": "تطبيق ملاحظات عربي الهوية: سريع وأنيق ويعمل دون إنترنت، مع تشفير حقيقي للملاحظات المقفلة.",
       "features": [
@@ -146,32 +146,6 @@
       "goal": "بديل عربي أنيق لتطبيقات الملاحظات، مع خصوصية حقيقية ونقل سهل من الهواتف الأخرى.",
       "whatsNew": "التطبيق قيد التطوير، ورابط التحميل يتفعّل تلقائياً أول ما ينزل إصدار.",
       "color": "#0E5A43"
-    },
-    {
-      "id": "bms",
-      "type": "app",
-      "status": "dev",
-      "name": "بطاريتي",
-      "tagline": "راقب بطارية البيت عبر البلوتوث",
-      "version": "0.2.0",
-      "icon": "assets/icons/bms.svg",
-      "repo": "Hussein199800/BMS",
-      "apk": "batteriti.apk",
-      "url": "https://github.com/Hussein199800/BMS/releases/latest/download/batteriti.apk",
-      "available": false,
-      "what": "مراقبة بطارية LiFePO4 المنزلية التي يديرها نظام JBD، محلياً عبر البلوتوث. للقراءة والمراقبة فقط.",
-      "features": [
-        "الجهد والتيار والقدرة ونسبة الشحن وحالة كل خلية",
-        "الوقت المتبقي حسب متوسط الحمل الفعلي",
-        "سجل محلي لـ 30 يوماً مع رسوم بيانية وتصدير CSV",
-        "تنبيه انخفاض الشحن، وعرض إنذارات البطارية",
-        "أداة «فحص الاتصال» لتشخيص الربط مع البطارية",
-        "الدخول بحساب JBD لقراءة بيانات البطارية من السحابة"
-      ],
-      "audience": "لأصحاب منظومات الطاقة ببطاريات منزلية تعمل بنظام JBD.",
-      "goal": "معرفة حال البطارية بدقة من الجوال دون تعديل أي إعداد فيها.",
-      "whatsNew": "التطبيق قيد التطوير: الاتصال بالبطارية الحقيقية قيد التجربة، ورابط التحميل يتفعّل تلقائياً أول ما ينزل إصدار.",
-      "color": "#0E6B56"
     },
     {
       "id": "tadaffuq",
