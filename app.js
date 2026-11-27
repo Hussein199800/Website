@@ -37,6 +37,14 @@
 
   function actionLink(p, cls) {
     var label = LABELS[p.type];
+    if (p.links && p.links.length && isReady(p)) {
+      // مشروع بأكثر من قسم: زر لكل قسم
+      return el('div', { class: 'link-group' }, p.links.map(function (l) {
+        var a = el('a', { class: cls, href: l.url, target: '_blank', rel: 'noopener', text: l.label });
+        a.addEventListener('click', function (e) { e.stopPropagation(); onLaunch(p); });
+        return a;
+      }));
+    }
     if (!isReady(p)) {
       return el('a', { class: cls, 'aria-disabled': 'true', role: 'link', text: 'قريباً' });
     }
@@ -46,7 +54,7 @@
   }
 
   function launch(p) {
-    if (!isReady(p)) { openSheet(p); return; }
+    if (!isReady(p) || (p.links && p.links.length)) { openSheet(p); return; }
     openLink(p.url);
     onLaunch(p);
   }
@@ -160,6 +168,12 @@
     restart();
   }
 
+  function formatDate(iso) {
+    try {
+      return new Date(iso).toLocaleDateString('ar-SY-u-nu-latn', { day: 'numeric', month: 'long', year: 'numeric' });
+    } catch (e) { return String(iso).slice(0, 10); }
+  }
+
   /* ---------- Details sheet ---------- */
   var lastFocus = null;
 
@@ -178,7 +192,7 @@
     var label = LABELS[p.type];
     $('#sheetIcon').src = p.icon;
     $('#sheetTitle').textContent = p.name;
-    $('#sheetMeta').textContent = label.type + (p.version ? ' · v' + p.version : '') + (p.status === 'dev' ? ' · قيد التطوير' : '');
+    $('#sheetMeta').textContent = label.type + (p.version ? ' · v' + p.version : '') + (p.status === 'dev' ? ' · قيد التطوير' : '') + (p.updated ? ' · آخر تحديث ' + formatDate(p.updated) : '');
     var body = $('#sheetBody');
     body.replaceChildren(
       p.note ? el('p', { class: 'note', text: '⚠️ ' + p.note }) : el('span'),

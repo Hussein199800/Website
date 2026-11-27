@@ -52,3 +52,16 @@ test('apply: manual whatsNew is kept for its version, replaced by a newer one', 
   assert.deepEqual(newer.whatsNew, ['تلقائي']);
   assert.equal(newer.whatsNewFor, undefined);
 });
+
+test('apply: apkPattern picks the matching asset and records the release date', () => {
+  const p = apply({ ...base, apk: undefined, apkPattern: '^x-.*-arm64-v8a\\.apk$' }, {
+    tag_name: 'v1.1.0', body: '', published_at: '2026-11-26T10:00:00Z',
+    assets: [
+      { name: 'x-1.1.0-armeabi-v7a.apk', browser_download_url: 'u/v7a' },
+      { name: 'x-1.1.0-arm64-v8a.apk', browser_download_url: 'u/arm64' },
+    ],
+  });
+  assert.equal(p.url, 'u/arm64');
+  assert.equal(p.available, undefined);
+  assert.equal(p.updated, '2026-11-26');
+});

@@ -1,5 +1,7 @@
-// يحدّث projects.json من آخر إصدار منشور لكل تطبيق له "repo":
-// رقم الإصدار، و«شو الجديد» من ملاحظات الإصدار، وتفعيل زر التحميل إذا وُجد ملف الـ APK.
+// يحدّث projects.json من المستودعات:
+// - التطبيقات (لها "repo"): رقم الإصدار، و«شو الجديد» من ملاحظات الإصدار، وتفعيل زر التحميل
+//   إذا وُجد ملف الـ APK ("apk" باسم ثابت، أو "apkPattern" تعبير نمطي لاسم يتغيّر مع كل إصدار).
+// - المواقع (لها "repo"): تاريخ آخر تحديث من آخر commit.
 // الاستخدام: GITHUB_TOKEN=... node scripts/sync-releases.mjs
 import { readFile, writeFile } from 'node:fs/promises';
 
@@ -7,8 +9,8 @@ const FILE = new URL('../projects.json', import.meta.url);
 const MAX_ITEMS = 4;
 const token = process.env.GITHUB_TOKEN;
 
-async function latestRelease(repo) {
-  const res = await fetch(`https://api.github.com/repos/${repo}/releases/latest`, {
+async function api(path) {
+  const res = await fetch(`https://api.github.com/${path}`, {
     headers: {
       Accept: 'application/vnd.github+json',
       'User-Agent': 'portfolio-sync',
@@ -16,8 +18,16 @@ async function latestRelease(repo) {
     },
   });
   if (res.status === 404) return null;
-  if (!res.ok) throw new Error(`${repo}: HTTP ${res.status}`);
+  if (!res.ok) throw new Error(`${path}: HTTP ${res.status}`);
   return res.json();
+}
+
+const latestRelease = (repo) => api(`repos/${repo}/releases/latest`);
+
+// "branch" للموقع الذي ينشر من فرع غير الفرع الافتراضي للمستودع
+async function lastCommitDate(repo, branch) {
+  const commits = await api(`repos/${repo}/commits?per_page=1${branch ? `&sha=${encodeURIComponent(branch)}` : ''}`);
+  return commits && commits[0] ? commits[0].commit.committer.date : null;
 }
 
 const MAX_LEN = 140;
@@ -50,10 +60,17 @@ export function apply(project, release) {
     return p;
   }
   p.version = String(release.tag_name || '').replace(/^v/i, '') || p.version;
-  const hasApk = (release.assets || []).some((a) => a.name === p.apk);
-  if (hasApk) {
+  if (release.published_at) p.updated = release.published_at.slice(0, 10);
+  const assets = release.assets || [];
+  const fixed = p.apk && assets.find((a) => a.name === p.apk);
+  const pattern = p.apkPattern && new RegExp(p.apkPattern);
+  const matched = !fixed && pattern && assets.find((a) => pattern.test(a.name));
+  if (fixed) {
     delete p.available;
     p.url = `https://github.com/${p.repo}/releases/latest/download/${p.apk}`;
+  } else if (matched) {
+    delete p.available;
+    p.url = matched.browser_download_url;
   } else {
     p.available = false;
   }
@@ -73,10 +90,16 @@ async function main() {
   let failed = 0;
   for (let i = 0; i < data.projects.length; i++) {
     const p = data.projects[i];
-    if (!p.repo || p.type !== 'app') continue;
+    if (!p.repo) continue;
     try {
-      data.projects[i] = apply(p, await latestRelease(p.repo));
-      console.log(`${p.id}: v${data.projects[i].version}${data.projects[i].available === false ? ' (غير متاح)' : ''}`);
+      if (p.type === 'app') {
+        data.projects[i] = apply(p, await latestRelease(p.repo));
+        console.log(`${p.id}: v${data.projects[i].version}${data.projects[i].available === false ? ' (غير متاح)' : ''}`);
+      } else {
+        const date = await lastCommitDate(p.repo, p.branch);
+        if (date) data.projects[i] = { ...p, updated: date.slice(0, 10) };
+        console.log(`${p.id}: آخر تحديث ${data.projects[i].updated || '؟'}`);
+      }
     } catch (e) {
       failed++;
       console.error(`${p.id}: ${e.message} — تُرك كما هو`);
