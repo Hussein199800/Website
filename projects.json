@@ -157,8 +157,7 @@
       "icon": "assets/icons/tadaffuq.svg",
       "repo": "Hussein199800/tadaffuq",
       "apkPattern": "^tadaffuq-.*-arm64-v8a.*\\.apk$",
-      "url": "https://github.com/Hussein199800/tadaffuq/releases/latest",
-      "available": false,
+      "url": "https://github.com/Hussein199800/tadaffuq/releases/download/v1.1.0/tadaffuq-1.1.0-10-2d5a492-github-arm64-v8a-release.apk",
       "what": "مدير تنزيل عربي لأندرويد: يسرّع تنزيل الملفات بتعدد الاتصالات، ويستأنفها بأمان، ويديرها في طابور ذكي، بلا حساب ولا إعلانات ولا متتبعات.",
       "features": [
         "حتى 32 اتصالاً مع تقسيم ديناميكي، وملفات أكبر من 4 غيغا",
@@ -171,11 +170,11 @@
       "audience": "لكل من ينزّل ملفات كبيرة ويريد سرعة واستئنافاً مضموناً.",
       "goal": "مدير تنزيل عربي قوي ونظيف يغني عن التطبيقات المليئة بالإعلانات.",
       "whatsNew": [
-        "التحديث من داخل التطبيق مع التحقق من التوقيع والبصمة",
-        "إصلاح انهيار متقطع في التورنت",
-        "إصدار 1.0 بعد 150 اختباراً آلياً"
+        "التحديث من داخل التطبيق (نسخة GitHub): فحص تلقائي كل 12 ساعة (يمكن إيقافه) أو يدوي من «حول»، ونافذة بالإصدار والحجم والجديد…",
+        "نسختان: GitHub (بالتحديث الذاتي) وPlay (بدونه وبلا إذن تثبيت التطبيقات، وفق سياسة Google Play)."
       ],
-      "color": "#142B4A"
+      "color": "#142B4A",
+      "updated": "2026-11-27"
     },
     {
       "id": "rasidi",
@@ -244,7 +243,7 @@
       ],
       "url": "https://hussein199800.github.io/Pension-Calculator/#calc",
       "branch": "main",
-      "updated": "2026-11-25"
+      "updated": "2026-11-27"
     },
     {
       "id": "sarrafa",
@@ -301,7 +300,7 @@
       ],
       "color": "#2b5bd7",
       "repo": "Hussein199800/Work_1",
-      "updated": "2026-11-26"
+      "updated": "2026-11-27"
     },
     {
       "id": "encyclopedia",
