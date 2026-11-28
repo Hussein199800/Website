@@ -93,16 +93,24 @@
     return node;
   }
 
+  // البحث في الاسم والوصف والميزات، مع تجاهل الفرق بين الهمزات والتاء المربوطة والألف المقصورة
+  function norm(s) {
+    return String(s).toLowerCase().replace(/[\u064B-\u0652]/g, '').replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي');
+  }
+  function searchText(p) {
+    return norm([p.name, p.tagline, p.what].concat(p.features || []).join(' '));
+  }
+
   function group(p) { return p.status === 'dev' ? 'dev' : p.type; }
 
   function render() {
-    var q = state.query.trim().toLowerCase();
+    var q = norm(state.query.trim());
     var shown = 0;
     ['app', 'web', 'dev'].forEach(function (key) {
       var grid = $('#grid-' + key);
       var section = document.querySelector('[data-section="' + key + '"]');
       var items = state.projects.filter(function (p) {
-        return group(p) === key && (!q || (p.name + ' ' + p.tagline).toLowerCase().indexOf(q) !== -1);
+        return group(p) === key && (!q || searchText(p).indexOf(q) !== -1);
       });
       var cards = items.map(card);
       cards.forEach(function (c, i) { c.style.setProperty('--i', i); });
